@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>KAZE SECURE KEY SYSTEM</title>
+
+<style>
+body{
+background:#0b0f16;
+color:white;
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+text-align:center;
+margin-top:80px;
+}
+
+h2{
+font-size:42px;
+letter-spacing:2px;
+margin-bottom:20px;
+text-shadow:0 0 15px rgba(255,255,255,0.1);
+}
+
+#key{
+font-size:36px;
+font-weight:bold;
+margin-top:50px;
+padding:30px 40px;
+border-radius:20px;
+border:4px solid #00ffd5;
+display:inline-block;
+min-width:350px;
+background:#0f1624;
+box-shadow:0 0 30px rgba(0,255,213,0.4);
+}
+
+#timer{
+margin-top:25px;
+font-size:24px;
+color:#ff4444;
+font-weight:bold;
+text-transform:uppercase;
+}
+
+button{
+margin-top:60px;
+padding:35px 120px;
+font-size:32px;
+font-weight:900;
+border:none;
+border-radius:25px;
+cursor:pointer;
+color:white;
+position:relative;
+background:#111;
+overflow:hidden;
+transition:transform .2s,box-shadow .2s;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+}
+
+button::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:conic-gradient(
+transparent,
+transparent,
+transparent,
+#ff0000
+);
+animation:rotate 1.5s linear infinite;
+z-index:0;
+}
+
+button::after{
+content:"";
+position:absolute;
+inset:4px;
+background:#111;
+border-radius:21px;
+z-index:0;
+}
+
+button span{
+position:relative;
+z-index:1;
+text-shadow:0 0 10px rgba(255,0,0,.8);
+}
+
+@keyframes rotate{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 40px rgba(255,0,0,.6);
+}
+
+button:active{
+transform:scale(.95);
+}
+
+#info{
+margin-top:50px;
+font-size:18px;
+color:#888;
+line-height:1.6;
+max-width:600px;
+margin-left:auto;
+margin-right:auto;
+}
+</style>
+</head>
+
+<body>
+
+<h2>KAZEHAYAMODZ FREE KEY CODM INJECTOR</h2>
+
+<div id="key">Loading key...</div>
+<div id="timer"></div>
+
+<br>
+
+<button onclick="copyKey()">
+<span>🔑 COPY KEY</span>
+</button>
+
+<div id="info">
+Default 12‑hour key | Fix system!
+</div>
+
+<script>
+
+/* ======================
+PARAM CHECK
+====================== */
+
+let params = new URLSearchParams(window.location.search);
+let pass = params.get("pass");
+let step = params.get("step");
+
+if(pass !== "1" || step !== "gplinks"){
+location.replace("https://kazefreekeysite.onrender.com");
+}
+
+/* ======================
+REFRESH BLOCK
+====================== */
+
+if(performance.navigation.type === 1){
+location.replace("https://kazefreekeysite.onrender.com");
+}
+
+/* ======================
+REFERRER CHECK
+====================== */
+
+let ref = document.referrer.toLowerCase();
+
+if(
+!ref.includes("https://kazefreekeysite.onrender.com") &&
+!ref.includes("gplinks")
+){
+location.replace("https://kazefreekeysite.onrender.com");
+}
+
+/* ======================
+KEY SYSTEM
+====================== */
+
+async function loadKey(){
+
+try{
+
+document.getElementById("key").innerText="Generating key...";
+
+/* TOKEN REQUEST */
+
+let tokenRes = await fetch("https://codm-injector.onrender.com/token",{cache:"no-store"});
+
+let tokenData = await tokenRes.json();
+
+if(!tokenData.token){
+document.getElementById("key").innerText="Server busy. Try again.";
+return;
+}
+
+let token = tokenData.token;
+
+/* KEY REQUEST */
+
+let keyRes = await fetch(`https://codm-injector.onrender.com/getkey?token=${token}`,{cache:"no-store"});
+
+let data = await keyRes.json();
+
+if(data.status !== "success"){
+document.getElementById("key").innerText = data.message || "Key generation failed";
+return;
+}
+
+let key = data.key;
+
+/* SHOW KEY */
+
+document.getElementById("key").innerText = key;
+
+/* AUTO COPY */
+
+navigator.clipboard.writeText(key).catch(()=>{});
+
+/* START REDIRECT */
+
+startRedirectTimer();
+
+}catch(e){
+
+document.getElementById("key").innerText="Server error. Please try again.";
+
+}
+
+}
+
+/* ======================
+20 SECOND REDIRECT
+====================== */
+
+function startRedirectTimer(){
+
+let seconds = 20;
+let timer = document.getElementById("timer");
+
+timer.innerText=`Returning to main page in ${seconds}s...`;
+
+let interval=setInterval(()=>{
+
+seconds--;
+
+timer.innerText=`Returning to main page in ${seconds}s...`;
+
+if(seconds<=0){
+
+clearInterval(interval);
+
+location.replace("https://kazefreekeysite.onrender.com");
+
+}
+
+},1000);
+
+}
+
+/* ======================
+COPY BUTTON
+====================== */
+
+function copyKey(){
+
+let key=document.getElementById("key").innerText;
+
+navigator.clipboard.writeText(key);
+
+location.replace("https://kazefreekeysite.onrender.com");
+
+}
+
+/* ======================
+BACK BUTTON BLOCK
+====================== */
+
+history.pushState(null,null,location.href);
+
+window.onpopstate=function(){
+location.replace("https://kazefreekeysite.onrender.com");
+};
+
+/* ====================== */
+
+window.onload=loadKey;
+
+</script>
+
+</body>
+</html>
